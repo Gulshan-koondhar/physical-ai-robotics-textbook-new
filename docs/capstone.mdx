@@ -1,0 +1,71 @@
+---
+sidebar_label: Capstone Project
+---
+
+# Chapter 15: Capstone – "Bring Me the Red Cup" Full Project
+
+## Overview
+
+This capstone project integrates all the concepts learned throughout the textbook into a single, comprehensive application. Your humanoid robot will be able to understand the voice command "Find the red cup, pick it up, and bring it to me" and execute it successfully.
+
+## Project Requirements
+
+- Voice command recognition using Whisper
+- Natural language understanding with GPT-4o/Llama-3-70B
+- Task and motion planning
+- Open-vocabulary object detection (Grounding DINO + SAM)
+- Grasping with MoveIt 2
+- Navigation with Nav2
+- Integration with your 20+ DoF humanoid model
+
+## Implementation Steps
+
+1. **Voice Command Processing**: Set up Whisper for speech-to-text conversion
+2. **Language Understanding**: Parse the command to identify objects and actions
+3. **Object Detection**: Use Grounding DINO + SAM to locate the red cup
+4. **Grasping Planning**: Plan the grasp using MoveIt 2
+5. **Navigation**: Use Nav2 to navigate to the object
+6. **Execution**: Execute the complete task sequence
+
+## Launch File
+
+Create a single ROS 2 launch file that starts the entire system:
+
+```xml
+<launch>
+  <!-- Voice recognition node -->
+  <node name="whisper_node" pkg="voice_pkg" exec="whisper_node" />
+
+  <!-- Language model node -->
+  <node name="llm_node" pkg="llm_pkg" exec="llm_node" />
+
+  <!-- Object detection node -->
+  <node name="object_detection_node" pkg="detection_pkg" exec="object_detection_node" />
+
+  <!-- Navigation stack -->
+  <include file="$(find-pkg-share nav2_bringup)/launch/navigation_launch.py" />
+
+  <!-- MoveIt 2 configuration -->
+  <include file="$(find-pkg-share moveit_config)/launch/moveit.launch.py" />
+</launch>
+```
+
+## Testing the System
+
+To test the complete system:
+
+1. Launch the full system: `ros2 launch capstone_project full_system.launch.py`
+2. Issue the voice command: "Find the red cup, pick it up, and bring it to me"
+3. Observe the robot's response and execution
+
+## Troubleshooting
+
+Common issues and solutions:
+
+- **Object detection fails**: Ensure proper lighting conditions and camera calibration
+- **Grasping fails**: Verify gripper calibration and object pose estimation
+- **Navigation fails**: Check for obstacles and map accuracy
+
+## Conclusion
+
+This capstone project demonstrates the integration of all components learned in this textbook. Successfully completing this project confirms your mastery of Physical AI and humanoid robotics concepts.

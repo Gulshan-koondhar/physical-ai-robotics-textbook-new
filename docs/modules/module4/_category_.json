@@ -1,0 +1,8 @@
+{
+  "label": "Module 4 - Vision-Language-Action (VLA) & Conversational Robotics",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Build end-to-end voice-to-action pipelines using Whisper, LLMs, task & motion planning, open-vocabulary detection, and grasping with MoveIt 2."
+  }
+}

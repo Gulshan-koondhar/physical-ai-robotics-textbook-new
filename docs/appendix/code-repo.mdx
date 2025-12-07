@@ -1,0 +1,892 @@
+---
+sidebar_label: Full URDF + Launch Files Repository
+---
+
+# Appendix B: Full URDF + Launch Files Repository
+
+## Overview
+
+This appendix provides complete examples of URDF files, launch files, and configuration files referenced throughout the textbook. These files serve as a comprehensive repository for your humanoid robotics project.
+
+## Humanoid URDF Examples
+
+### Basic 20+ DoF Humanoid URDF (humanoid.urdf.xacro)
+
+```xml
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="humanoid">
+
+  <!-- Constants -->
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="mass_link" value="1.0" />
+  <xacro:property name="length_torso" value="0.5" />
+  <xacro:property name="radius_link" value="0.05" />
+
+  <!-- Materials -->
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+  <material name="orange">
+    <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+  </material>
+  <material name="brown">
+    <color rgba="0.870588235294 0.811764705882 0.764705882353 1.0"/>
+  </material>
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+  <!-- Base Link -->
+  <link name="base_link">
+    <inertial>
+      <mass value="10.0" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1" />
+    </inertial>
+  </link>
+
+  <!-- Torso -->
+  <joint name="torso_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="torso"/>
+    <origin xyz="0 0 ${length_torso/2}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="torso">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*2}" length="${length_torso}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*2}" length="${length_torso}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.02" />
+    </inertial>
+  </link>
+
+  <!-- Head -->
+  <joint name="head_joint" type="revolute">
+    <parent link="torso"/>
+    <child link="head"/>
+    <origin xyz="0 0 ${length_torso/2}" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="${-M_PI/2}" upper="${M_PI/2}" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="head">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="${radius_link*1.5}"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="${radius_link*1.5}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005" iyz="0.0" izz="0.005" />
+    </inertial>
+  </link>
+
+  <!-- Left Arm -->
+  <joint name="left_shoulder_joint" type="revolute">
+    <parent link="torso"/>
+    <child link="left_upper_arm"/>
+    <origin xyz="0 ${radius_link*4} ${length_torso*0.3}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${-M_PI/2}" upper="${M_PI/2}" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="left_upper_arm">
+    <visual>
+      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link}" length="0.3"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link}" length="0.3"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0" />
+      <origin xyz="0 0 -0.15" />
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <joint name="left_elbow_joint" type="revolute">
+    <parent link="left_upper_arm"/>
+    <child link="left_lower_arm"/>
+    <origin xyz="0 0 -0.3" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="${-M_PI/2}" upper="${M_PI/2}" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="left_lower_arm">
+    <visual>
+      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link}" length="0.3"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link}" length="0.3"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.8" />
+      <origin xyz="0 0 -0.15" />
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <!-- Right Arm (symmetric to left) -->
+  <joint name="right_shoulder_joint" type="revolute">
+    <parent link="torso"/>
+    <child link="right_upper_arm"/>
+    <origin xyz="0 ${-radius_link*4} ${length_torso*0.3}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${-M_PI/2}" upper="${M_PI/2}" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="right_upper_arm">
+    <visual>
+      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link}" length="0.3"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link}" length="0.3"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0" />
+      <origin xyz="0 0 -0.15" />
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <joint name="right_elbow_joint" type="revolute">
+    <parent link="right_upper_arm"/>
+    <child link="right_lower_arm"/>
+    <origin xyz="0 0 -0.3" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="${-M_PI/2}" upper="${M_PI/2}" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="right_lower_arm">
+    <visual>
+      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link}" length="0.3"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link}" length="0.3"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.8" />
+      <origin xyz="0 0 -0.15" />
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <!-- Left Leg -->
+  <joint name="left_hip_joint" type="revolute">
+    <parent link="torso"/>
+    <child link="left_thigh"/>
+    <origin xyz="0 ${radius_link*2} ${-length_torso/2}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${-M_PI/2}" upper="${M_PI/2}" effort="200" velocity="1"/>
+  </joint>
+
+  <link name="left_thigh">
+    <visual>
+      <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*1.2}" length="0.4"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*1.2}" length="0.4"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0" />
+      <origin xyz="0 0 -0.2" />
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0" iyy="0.04" iyz="0.0" izz="0.002" />
+    </inertial>
+  </link>
+
+  <joint name="left_knee_joint" type="revolute">
+    <parent link="left_thigh"/>
+    <child link="left_shin"/>
+    <origin xyz="0 0 -0.4" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${-M_PI/2}" upper="0" effort="200" velocity="1"/>
+  </joint>
+
+  <link name="left_shin">
+    <visual>
+      <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*1.2}" length="0.4"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*1.2}" length="0.4"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.5" />
+      <origin xyz="0 0 -0.2" />
+      <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.002" />
+    </inertial>
+  </link>
+
+  <joint name="left_ankle_joint" type="revolute">
+    <parent link="left_shin"/>
+    <child link="left_foot"/>
+    <origin xyz="0 0 -0.4" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="${-M_PI/6}" upper="${M_PI/6}" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="left_foot">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+      <material name="brown"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <!-- Right Leg (symmetric to left) -->
+  <joint name="right_hip_joint" type="revolute">
+    <parent link="torso"/>
+    <child link="right_thigh"/>
+    <origin xyz="0 ${-radius_link*2} ${-length_torso/2}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${-M_PI/2}" upper="${M_PI/2}" effort="200" velocity="1"/>
+  </joint>
+
+  <link name="right_thigh">
+    <visual>
+      <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*1.2}" length="0.4"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*1.2}" length="0.4"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0" />
+      <origin xyz="0 0 -0.2" />
+      <inertia ixx="0.04" ixy="0.0" ixz="0.0" iyy="0.04" iyz="0.0" izz="0.002" />
+    </inertial>
+  </link>
+
+  <joint name="right_knee_joint" type="revolute">
+    <parent link="right_thigh"/>
+    <child link="right_shin"/>
+    <origin xyz="0 0 -0.4" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="${-M_PI/2}" upper="0" effort="200" velocity="1"/>
+  </joint>
+
+  <link name="right_shin">
+    <visual>
+      <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*1.2}" length="0.4"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${radius_link*1.2}" length="0.4"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.5" />
+      <origin xyz="0 0 -0.2" />
+      <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.002" />
+    </inertial>
+  </link>
+
+  <joint name="right_ankle_joint" type="revolute">
+    <parent link="right_shin"/>
+    <child link="right_foot"/>
+    <origin xyz="0 0 -0.4" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="${-M_PI/6}" upper="${M_PI/6}" effort="100" velocity="1"/>
+  </joint>
+
+  <link name="right_foot">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+      <material name="brown"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.1 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <!-- Gazebo plugin for ros_control -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/humanoid</robotNamespace>
+    </plugin>
+  </gazebo>
+
+  <!-- Controllers -->
+  <xacro:macro name="transmission_block" params="joint_name">
+    <transmission name="tran1_${joint_name}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint_name}">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor1_${joint_name}">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:transmission_block joint_name="head_joint"/>
+  <xacro:transmission_block joint_name="left_shoulder_joint"/>
+  <xacro:transmission_block joint_name="left_elbow_joint"/>
+  <xacro:transmission_block joint_name="right_shoulder_joint"/>
+  <xacro:transmission_block joint_name="right_elbow_joint"/>
+  <xacro:transmission_block joint_name="left_hip_joint"/>
+  <xacro:transmission_block joint_name="left_knee_joint"/>
+  <xacro:transmission_block joint_name="left_ankle_joint"/>
+  <xacro:transmission_block joint_name="right_hip_joint"/>
+  <xacro:transmission_block joint_name="right_knee_joint"/>
+  <xacro:transmission_block joint_name="right_ankle_joint"/>
+
+</robot>
+```
+
+## Launch Files
+
+### Basic Simulation Launch (simulation.launch.py)
+
+```python
+import os
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import PathJoinSubstitution
+from launch_ros.substitutions import FindPackageShare
+
+
+def generate_launch_description():
+    # Declare launch arguments
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "runtime_manager_gui",
+            default_value="true",
+            description="Whether to launch the runtime manager GUI.",
+        )
+    )
+
+    # Launch arguments
+    runtime_manager_gui = LaunchConfiguration("runtime_manager_gui")
+
+    # Robot State Publisher
+    robot_description_content = open(
+        os.path.join(
+            FindPackageShare("humanoid_description").find("humanoid_description"),
+            "urdf",
+            "humanoid.urdf.xacro",
+        )
+    ).read()
+
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        name="robot_state_publisher",
+        parameters=[{"robot_description": robot_description_content}],
+        output="both",
+    )
+
+    # Joint State Publisher (for simulation)
+    joint_state_publisher_node = Node(
+        package="joint_state_publisher",
+        executable="joint_state_publisher",
+        name="joint_state_publisher",
+        parameters=[
+            {"source_list": ["joint_states"], "rate": 50}
+        ],
+    )
+
+    # Gazebo
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [FindPackageShare("gazebo_ros"), "/launch", "/gazebo.launch.py"]
+        )
+    )
+
+    # Spawn robot in Gazebo
+    spawn_entity = Node(
+        package="gazebo_ros",
+        executable="spawn_entity.py",
+        arguments=[
+            "-topic",
+            "robot_description",
+            "-entity",
+            "humanoid",
+            "-x", "0",
+            "-y", "0",
+            "-z", "1.0",
+        ],
+        output="screen",
+    )
+
+    return LaunchDescription(
+        declared_arguments
+        + [
+            robot_state_publisher_node,
+            joint_state_publisher_node,
+            gazebo,
+            spawn_entity,
+        ]
+    )
+```
+
+### Voice Control Launch (voice_control.launch.py)
+
+```python
+import os
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+from launch.event_handlers import OnProcessExit
+
+
+def generate_launch_description():
+    # Declare launch arguments
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_rviz",
+            default_value="true",
+            description="Whether to start RViz.",
+        )
+    )
+
+    # Launch arguments
+    use_rviz = LaunchConfiguration("use_rviz")
+
+    # Whisper Node
+    whisper_node = Node(
+        package="voice_pkg",
+        executable="whisper_node",
+        name="whisper_node",
+        parameters=[
+            {"model_size": "medium"},
+            {"language": "en"},
+            {"temperature": 0.0},
+        ],
+        output="screen",
+    )
+
+    # LLM Node
+    llm_node = Node(
+        package="llm_pkg",
+        executable="llm_node",
+        name="llm_node",
+        parameters=[
+            {"model_name": "llama-3-70b"},
+            {"temperature": 0.7},
+            {"max_tokens": 512},
+        ],
+        output="screen",
+    )
+
+    # Task Planner Node
+    task_planner_node = Node(
+        package="task_planner_pkg",
+        executable="task_planner_node",
+        name="task_planner_node",
+        parameters=[
+            {"planning_timeout": 30.0},
+            {"max_attempts": 3},
+        ],
+        output="screen",
+    )
+
+    # RViz
+    rviz_config_file = PathJoinSubstitution(
+        [FindPackageShare("humanoid_viz"), "rviz", "voice_control.rviz"]
+    )
+
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        arguments=["-d", rviz_config_file],
+        condition=IfCondition(use_rviz),
+        output="screen",
+    )
+
+    # Create launch description
+    ld = LaunchDescription(declared_arguments)
+
+    # Add nodes
+    ld.add_action(whisper_node)
+    ld.add_action(llm_node)
+    ld.add_action(task_planner_node)
+    ld.add_action(rviz_node)
+
+    return ld
+```
+
+### Full System Launch (full_system.launch.py)
+
+```python
+import os
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+
+
+def generate_launch_description():
+    # Declare launch arguments
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_simulation",
+            default_value="true",
+            description="Whether to use simulation or real robot.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_rviz",
+            default_value="true",
+            description="Whether to start RViz.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_moveit",
+            default_value="true",
+            description="Whether to start MoveIt components.",
+        )
+    )
+
+    # Launch arguments
+    use_simulation = LaunchConfiguration("use_simulation")
+    use_rviz = LaunchConfiguration("use_rviz")
+    use_moveit = LaunchConfiguration("use_moveit")
+
+    # Include simulation launch if needed
+    simulation_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare("humanoid_bringup"),
+                "launch",
+                "simulation.launch.py"
+            ])
+        ),
+        condition=IfCondition(use_simulation),
+    )
+
+    # Whisper Node
+    whisper_node = Node(
+        package="voice_pkg",
+        executable="whisper_node",
+        name="whisper_node",
+        parameters=[
+            {"model_size": "medium"},
+            {"language": "en"},
+            {"temperature": 0.0},
+        ],
+        output="screen",
+    )
+
+    # LLM Node
+    llm_node = Node(
+        package="llm_pkg",
+        executable="llm_node",
+        name="llm_node",
+        parameters=[
+            {"model_name": "llama-3-70b"},
+            {"temperature": 0.7},
+            {"max_tokens": 512},
+        ],
+        output="screen",
+    )
+
+    # Object Detection Node
+    object_detection_node = Node(
+        package="object_detection_pkg",
+        executable="object_detection_node",
+        name="object_detection_node",
+        parameters=[
+            {"model_name": "grounding_dino"},
+            {"confidence_threshold": 0.7},
+            {"device": "cuda"},
+        ],
+        output="screen",
+    )
+
+    # Navigation (Nav2)
+    nav2_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare("nav2_bringup"),
+                "launch",
+                "navigation_launch.py"
+            ])
+        )
+    )
+
+    # MoveIt 2 components
+    moveit_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare("humanoid_moveit_config"),
+                "launch",
+                "move_group.launch.py"
+            ])
+        ),
+        condition=IfCondition(use_moveit),
+    )
+
+    # RViz
+    rviz_config_file = PathJoinSubstitution(
+        [FindPackageShare("humanoid_viz"), "rviz", "full_system.rviz"]
+    )
+
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        arguments=["-d", rviz_config_file],
+        condition=IfCondition(use_rviz),
+        output="screen",
+    )
+
+    return LaunchDescription(
+        declared_arguments
+        + [
+            simulation_launch,
+            whisper_node,
+            llm_node,
+            object_detection_node,
+            nav2_launch,
+            moveit_launch,
+            rviz_node,
+        ]
+    )
+```
+
+## Configuration Files
+
+### Controller Configuration (controllers.yaml)
+
+```yaml
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    humanoid_arm_controller:
+      type: position_controllers/JointTrajectoryController
+
+    humanoid_leg_controller:
+      type: position_controllers/JointTrajectoryController
+
+    humanoid_head_controller:
+      type: position_controllers/JointTrajectoryController
+
+humanoid_arm_controller:
+  ros__parameters:
+    joints:
+      - left_shoulder_joint
+      - left_elbow_joint
+      - right_shoulder_joint
+      - right_elbow_joint
+    interface_name: position
+
+humanoid_leg_controller:
+  ros__parameters:
+    joints:
+      - left_hip_joint
+      - left_knee_joint
+      - left_ankle_joint
+      - right_hip_joint
+      - right_knee_joint
+      - right_ankle_joint
+    interface_name: position
+
+humanoid_head_controller:
+  ros__parameters:
+    joints:
+      - head_joint
+    interface_name: position
+```
+
+### Sensor Configuration (sensors.yaml)
+
+```yaml
+/**:
+  ros__parameters:
+    # Camera parameters
+    camera:
+      width: 640
+      height: 480
+      fps: 30
+      format: "RGB8"
+
+    # IMU parameters
+    imu:
+      rate: 100
+      frame_id: "imu_link"
+
+    # Force/Torque sensor parameters
+    ft_sensor:
+      rate: 1000
+      frame_id: "wrist_link"
+```
+
+## Environment Setup Scripts
+
+### Setup Script (setup.sh)
+
+```bash
+#!/bin/bash
+
+# Setup script for Physical AI & Humanoid Robotics environment
+
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install ROS 2 Humble
+if [ ! -f /etc/apt/sources.list.d/ros2.list ]; then
+    sudo apt install software-properties-common
+    sudo add-apt-repository universe
+    sudo apt update && sudo apt install curl -y
+    sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+    sudo apt update
+    sudo apt install ros-humble-desktop ros-humble-ros-base -y
+fi
+
+# Install colcon
+sudo apt install python3-colcon-common-extensions -y
+
+# Install Gazebo Garden
+if [ ! -f /etc/apt/sources.list.d/gazebo.list ]; then
+    sudo wget -qO - https://packages.osrfoundation.org/gazebo.gpg | sudo apt-key add -
+    echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo.list > /dev/null
+    sudo apt update
+    sudo apt install gazebo -y
+fi
+
+# Install NVIDIA drivers and CUDA
+sudo apt install nvidia-driver-535 -y
+sudo apt install nvidia-cuda-toolkit -y
+
+# Install Python dependencies
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip3 install transformers accelerate diffusers
+
+# Source ROS
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+echo "Setup complete! Please restart your terminal or run 'source ~/.bashrc'"
+```
+
+This repository provides a comprehensive collection of URDF files, launch configurations, and setup scripts that form the foundation of your humanoid robotics project. Each file is designed to work with the ROS 2 ecosystem and can be customized based on your specific requirements.

@@ -1,0 +1,169 @@
+---
+sidebar_label: Troubleshooting & Common Errors
+---
+
+# Appendix A: Troubleshooting & Common Errors
+
+## ROS 2 Common Issues
+
+### Network Configuration
+**Problem**: Nodes on different machines cannot communicate.
+**Solution**:
+- Ensure ROS_DOMAIN_ID is the same on all machines
+- Check firewall settings for ROS ports (11311 and up)
+- Verify network interface configuration with `ros2 topic list`
+
+### Package Not Found
+**Problem**: `ros2 run` or `colcon build` cannot find packages.
+**Solution**:
+- Source the ROS 2 setup: `source /opt/ros/humble/setup.bash`
+- In your workspace: `source install/setup.bash`
+- Check if package.xml has correct dependencies
+
+### Permission Errors
+**Problem**: Cannot access serial devices or cameras.
+**Solution**:
+- Add user to dialout group: `sudo usermod -a -G dialout $USER`
+- Log out and back in for changes to take effect
+
+## Simulation Issues
+
+### Gazebo Performance
+**Problem**: Slow simulation or low frame rates.
+**Solution**:
+- Reduce physics update rate in world file
+- Disable unnecessary sensors during development
+- Ensure GPU acceleration is enabled
+
+### Robot Model Issues
+**Problem**: Robot appears broken or joints don't move correctly.
+**Solution**:
+- Validate URDF with `check_urdf <path_to_urdf>`
+- Check joint limits and transmission configurations
+- Verify visual and collision meshes exist
+
+### Physics Issues
+**Problem**: Robot falls through the ground or behaves erratically.
+**Solution**:
+- Check inertial properties in URDF
+- Adjust physics parameters in Gazebo world file
+- Verify mass and inertia values are reasonable
+
+## NVIDIA Isaac Issues
+
+### Isaac Sim Installation
+**Problem**: Isaac Sim fails to launch or crashes.
+**Solution**:
+- Verify GPU meets minimum requirements (RTX 2080+)
+- Install recommended NVIDIA drivers
+- Check CUDA version compatibility
+
+### Isaac ROS GEMs
+**Problem**: Perception nodes fail to start or produce poor results.
+**Solution**:
+- Verify camera calibration parameters
+- Check image topic names and formats
+- Ensure proper GPU memory allocation
+
+### Replicator Issues
+**Problem**: Synthetic data generation fails.
+**Solution**:
+- Check USD stage structure
+- Verify material assignments
+- Ensure sufficient disk space for generated data
+
+## AI Model Issues
+
+### Whisper/Language Model Errors
+**Problem**: Voice recognition fails or produces incorrect results.
+**Solution**:
+- Verify audio input device and format
+- Check model loading and memory requirements
+- Adjust confidence thresholds for speech detection
+
+### TensorRT Optimization
+**Problem**: Models fail to optimize or run slowly on Jetson.
+**Solution**:
+- Verify TensorRT compatibility with model version
+- Check Jetson JetPack version
+- Adjust batch size for available memory
+
+## Hardware Deployment
+
+### Jetson Orin Issues
+**Problem**: Application crashes or runs slowly on Jetson.
+**Solution**:
+- Monitor thermal throttling with `sudo tegrastats`
+- Check power mode settings
+- Verify available memory and swap space
+
+### Robot Control Issues
+**Problem**: Robot behaves unexpectedly during autonomous operation.
+**Solution**:
+- Verify safety limits and joint ranges
+- Check real-time performance requirements
+- Implement proper error handling and recovery
+
+## Development Environment
+
+### Docusaurus Issues
+**Problem**: Local site fails to build or serve.
+**Solution**:
+- Clear cache: `npm run clear`
+- Reinstall dependencies: `npm install`
+- Check Node.js version compatibility
+
+### Git Large File Issues
+**Problem**: Large binary files (models, meshes) cause Git issues.
+**Solution**:
+- Use Git LFS: `git lfs track "*.model"`
+- Verify LFS is properly configured
+- Check repository size limits
+
+## Performance Optimization
+
+### Simulation Optimization
+- Reduce physics update rate for development
+- Disable rendering when not needed
+- Use simplified collision meshes during development
+
+### AI Model Optimization
+- Use TensorRT for inference optimization
+- Implement model quantization where possible
+- Optimize batch sizes for target hardware
+
+### ROS 2 Optimization
+- Use appropriate QoS profiles
+- Minimize message size and frequency
+- Implement proper node lifecycle management
+
+## Debugging Strategies
+
+### ROS 2 Debugging
+- Use `rqt_graph` to visualize node connections
+- Monitor topics with `ros2 topic echo`
+- Check parameters with `ros2 param list`
+
+### Performance Profiling
+- Use `ros2 bag` for data recording and replay
+- Profile CPU/GPU usage during operation
+- Monitor memory consumption over time
+
+### Hardware Debugging
+- Log sensor data for offline analysis
+- Implement safety checks and emergency stops
+- Use simulation to verify behavior before real deployment
+
+## Getting Help
+
+### Documentation
+- ROS 2 Documentation: docs.ros.org
+- NVIDIA Isaac Documentation: docs.omniverse.nvidia.com
+- Docusaurus Documentation: docusaurus.io
+
+### Community Resources
+- ROS Answers: answers.ros.org
+- NVIDIA Developer Forums: developer.nvidia.com
+- GitHub Issues: Check existing issues before creating new ones
+
+Remember: When encountering issues, always start by checking the basics - power, network, and proper initialization - before diving into complex debugging.

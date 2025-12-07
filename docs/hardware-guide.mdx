@@ -1,0 +1,148 @@
+---
+sidebar_label: Hardware Guide
+---
+
+# Hardware Guide – RTX Workstation + Jetson Kit + Unitree G1/Go2
+
+## Overview
+
+This guide provides recommendations for the hardware required to follow this textbook, from development to real-world deployment.
+
+## Development Workstation Requirements
+
+### Minimum Specifications
+- **CPU**: Intel i7-10700K or AMD Ryzen 7 3700X
+- **GPU**: NVIDIA RTX 3070 (8GB VRAM) or better
+- **RAM**: 32GB DDR4
+- **Storage**: 1TB NVMe SSD
+- **OS**: Ubuntu 22.04 LTS
+
+### Recommended Specifications
+- **CPU**: Intel i9-12900K or AMD Ryzen 9 5900X
+- **GPU**: NVIDIA RTX 4080 (16GB VRAM) or RTX 4090 (24GB VRAM)
+- **RAM**: 64GB DDR4
+- **Storage**: 2TB+ NVMe SSD
+- **OS**: Ubuntu 22.04 LTS
+
+### Why RTX GPUs?
+- Hardware-accelerated AI inference
+- CUDA support for NVIDIA Isaac ecosystem
+- TensorRT optimization capabilities
+- Real-time simulation performance
+
+## Jetson Deployment Options
+
+### Jetson Orin Nano
+- **Best for**: Lightweight inference, cost-effective
+- **Compute**: 40 TOPS AI Performance
+- **RAM**: 4GB or 8GB LPDDR5
+- **Power**: 7W-15W
+- **Best for**: Perception and basic control tasks
+
+### Jetson Orin AGX
+- **Best for**: Full inference stack, complex AI tasks
+- **Compute**: 275 TOPS AI Performance
+- **RAM**: 32GB or 64GB LPDDR5
+- **Power**: 15W-60W
+- **Best for**: Complete humanoid control with all AI models
+
+## Humanoid Robot Platforms
+
+### Unitree G1
+- **Degrees of Freedom**: 32 DoF
+- **Height**: 106cm
+- **Weight**: 43kg
+- **Actuators**: 32 high-performance actuators
+- **Sensors**: IMU, force/torque sensors
+- **Best for**: Affordable humanoid platform
+
+### Unitree Go2
+- **Degrees of Freedom**: 12 DoF
+- **Type**: Quadruped robot
+- **Best for**: Locomotion and navigation development
+
+### Alternative Platforms
+- **ANYmal** (for quadruped research)
+- **H1/H2** (for advanced humanoid research)
+- **Custom builds** using ROS-compatible actuators
+
+## Sensor Integration
+
+### Required Sensors
+- **RGB-D Camera**: Intel RealSense D455 or similar
+- **IMU**: Inertial measurement unit for balance
+- **Force/Torque Sensors**: For manipulation feedback
+- **LiDAR**: 2D or 3D for navigation (optional)
+
+### Optional Sensors
+- **Stereo Cameras**: For depth estimation
+- **Thermal Camera**: For specialized perception
+- **Microphone Array**: For improved voice recognition
+
+## Network Setup
+
+### Development Network
+- **Wired**: Gigabit Ethernet for simulation
+- **Wireless**: Wi-Fi 6 for robot communication
+- **Real-time**: Consider dedicated network for robot control
+
+### Deployment Network
+- **Local**: Offline operation for safety
+- **Remote**: Secure VPN for remote monitoring
+- **Bandwidth**: Minimum 100 Mbps for video streaming
+
+## Power Requirements
+
+### Workstation
+- Reliable power supply (850W+ for high-end RTX)
+- UPS for power protection during training
+- Proper cooling for sustained performance
+
+### Robot Platform
+- Battery management system
+- Power distribution for actuators
+- Emergency shutoff capability
+
+## Setup Checklist
+
+### Before You Buy
+- [ ] Verify ROS 2 compatibility with chosen robot platform
+- [ ] Check NVIDIA Isaac support for your RTX model
+- [ ] Ensure adequate workspace for robot operation
+- [ ] Plan for safe operation area (minimum 3m x 3m)
+
+### Initial Setup
+- [ ] Install Ubuntu 22.04 LTS on workstation
+- [ ] Install NVIDIA drivers and CUDA toolkit
+- [ ] Set up ROS 2 Humble Hawksbill
+- [ ] Configure robot platform according to manufacturer
+- [ ] Test basic robot functionality before AI integration
+
+## Budget Planning
+
+### Budget Option (~$15,000)
+- RTX 3070 workstation
+- Jetson Orin Nano
+- Unitree G1
+- Basic sensors
+
+### Mid-range Option (~$30,000)
+- RTX 4070/4080 workstation
+- Jetson Orin AGX
+- Unitree G1 + sensors
+- Professional RGB-D camera
+
+### High-end Option (~$50,000+)
+- RTX 4090 workstation
+- Multiple Jetson Orin AGX
+- Unitree H1 or custom platform
+- Full sensor suite
+- Professional development tools
+
+## Safety Considerations
+
+- **Physical Safety**: Robot motion can cause injury
+- **Electrical Safety**: High-power actuators require proper handling
+- **Emergency Stop**: Always have immediate shutoff capability
+- **Workspace**: Secure area with safety barriers
+- **Supervision**: Never leave robot unattended during operation

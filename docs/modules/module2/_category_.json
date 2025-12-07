@@ -1,0 +1,8 @@
+{
+  "label": "Module 2 - The Digital Twin (Simulation)",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Build full physics simulation pipelines with Gazebo Harmonic + Ignition, sensor plugins, world building, and controlling humanoid robots in simulation."
+  }
+}
