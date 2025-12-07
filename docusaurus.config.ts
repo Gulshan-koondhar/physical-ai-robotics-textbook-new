@@ -1,13 +1,13 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import { themes as prismThemes } from "prism-react-renderer";
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Physical AI & Humanoid Robotics',
-  tagline: 'Complete AI-Native Interactive Textbook',
-  favicon: 'img/favicon.ico',
+  title: "Physical AI & Humanoid Robotics",
+  tagline: "Complete AI-Native Interactive Textbook",
+  favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -15,134 +15,130 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://Gulshan-koondhar.github.io',
+  url: "https://hackathon-book.vercel.app",
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/hackathon-book/',
+  // For Vercel deployment, use '/'
+  baseUrl: "/",
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'Gulshan-koondhar', // Usually your GitHub org/user name.
-  projectName: 'hackathon-book', // Usually your repo name.
+  // GitHub pages deployment config removed for Vercel
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: "throw",
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       {
         docs: {
-          sidebarPath: './sidebars.ts',
+          sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/Gulshan-koondhar/hackathon-book/tree/main/physical-ai-robotics-book',
+            "https://github.com/Gulshan-koondhar/hackathon-book/tree/main/physical-ai-robotics-book", // Update this to your actual repo
         },
         blog: false, // Disabled for docs-only mode
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: "./src/css/custom.css",
         },
       } satisfies Preset.Options,
     ],
   ],
 
-
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: "img/docusaurus-social-card.jpg",
     colorMode: {
       respectPrefersColorScheme: true,
     },
     algolia: {
       // The application ID provided by Algolia
-      appId: 'YOUR_ALGOLIA_APP_ID',
+      appId: "YOUR_ALGOLIA_APP_ID",
 
       // Public API key: it is safe to commit it
-      apiKey: 'YOUR_ALGOLIA_API_KEY',
+      apiKey: "YOUR_ALGOLIA_API_KEY",
 
-      indexName: 'physical-ai-humanoid-robotics',
+      indexName: "physical-ai-humanoid-robotics",
 
       // Optional: see doc section below
       contextualSearch: true,
 
       // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when the Algolia config aligns with a different set of domains
-      externalUrlRegex: 'external\\.com|domain\\.com',
+      externalUrlRegex: "external\\.com|domain\\.com",
 
       // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
       replaceSearchResultPathname: {
-        from: '/docs/', // or as RegExp: /\/docs\//
-        to: '/',
+        from: "/docs/", // or as RegExp: /\/docs\//
+        to: "/",
       },
 
       // Optional: Algolia search parameters
       searchParameters: {},
 
       // Optional: path for search page that enabled by default (`false` to disable it)
-      searchPagePath: 'search',
+      searchPagePath: "search",
     },
     navbar: {
-      title: 'Physical AI & Humanoid Robotics',
+      title: "Physical AI & Humanoid Robotics",
       logo: {
-        alt: 'Physical AI & Humanoid Robotics Logo',
-        src: 'img/logo.svg',
+        alt: "Physical AI & Humanoid Robotics Logo",
+        src: "img/logo.svg",
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Textbook',
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "left",
+          label: "Textbook",
         },
         {
-          href: 'https://github.com/Gulshan-koondhar/hackathon-book',
-          label: 'GitHub',
-          position: 'right',
+          href: "https://github.com/Gulshan-koondhar/hackathon-book", // Update this to your actual repo
+          label: "GitHub",
+          position: "right",
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "Docs",
           items: [
             {
-              label: 'Textbook',
-              to: '/docs/intro',
+              label: "Textbook",
+              to: "/docs/intro",
             },
           ],
         },
         {
-          title: 'Community',
+          title: "Community",
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: "Stack Overflow",
+              href: "https://stackoverflow.com/questions/tagged/docusaurus",
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: "Discord",
+              href: "https://discordapp.com/invite/docusaurus",
             },
             {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              label: "X",
+              href: "https://x.com/docusaurus",
             },
           ],
         },
         {
-          title: 'More',
+          title: "More",
           items: [
             {
-              label: 'GitHub',
-              href: 'https://github.com/Gulshan-koondhar/hackathon-book',
+              label: "GitHub",
+              href: "https://github.com/Gulshan-koondhar/hackathon-book", // Update this to your actual repo
             },
           ],
         },
