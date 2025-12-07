@@ -15,7 +15,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: "https://hackathon-book.vercel.app",
+  url: "https://physical-ai-robotics-textbook-new.vercel.app",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For Vercel deployment, use '/'
   baseUrl: "/",
@@ -41,7 +41,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/Gulshan-koondhar/hackathon-book/tree/main/physical-ai-robotics-book", // Update this to your actual repo
+            "https://github.com/Gulshan-koondhar/physical-ai-robotics-textbook-new", // Updated to new repo
         },
         blog: false, // Disabled for docs-only mode
         theme: {
@@ -64,7 +64,7 @@ const config: Config = {
       // Public API key: it is safe to commit it
       apiKey: "YOUR_ALGOLIA_API_KEY",
 
-      indexName: "physical-ai-humanoid-robotics",
+      indexName: "physical-ai-robotics-textbook",
 
       // Optional: see doc section below
       contextualSearch: true,
@@ -98,7 +98,7 @@ const config: Config = {
           label: "Textbook",
         },
         {
-          href: "https://github.com/Gulshan-koondhar/hackathon-book", // Update this to your actual repo
+          href: "https://github.com/Gulshan-koondhar/physical-ai-robotics-textbook-new", // Updated to new repo
           label: "GitHub",
           position: "right",
         },
@@ -138,7 +138,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub",
-              href: "https://github.com/Gulshan-koondhar/hackathon-book", // Update this to your actual repo
+              href: "https://github.com/Gulshan-koondhar/physical-ai-robotics-textbook-new", // Updated to new repo
             },
           ],
         },
