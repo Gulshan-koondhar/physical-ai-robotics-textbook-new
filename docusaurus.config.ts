@@ -112,7 +112,7 @@ const config: Config = {
           items: [
             {
               label: "Textbook",
-              to: "/docs/intro",
+              to: "/docs/",
             },
           ],
         },
